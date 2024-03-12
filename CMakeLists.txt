@@ -6,6 +6,8 @@ project(OSQP_DEMO)
 # specify the C++ standard
 set(CMAKE_CXX_STANDARD 17)
 set(CMAKE_CXX_STANDARD_REQUIRED True)
+set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -fsanitize=address")
+set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -fsanitize=undefined")
 
 add_subdirectory(traj_opt)
 
@@ -13,6 +15,4 @@ add_subdirectory(traj_opt)
 add_executable(OSQP_DEMO tutorial.cpp)
 target_link_libraries(OSQP_DEMO PUBLIC TrajOpt)
 
-target_include_directories(OSQP_DEMO PUBLIC
-                           "${PROJECT_BINARY_DIR}"
-                           )
+target_include_directories(OSQP_DEMO PUBLIC "${PROJECT_BINARY_DIR}")

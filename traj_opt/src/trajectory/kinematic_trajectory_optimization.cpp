@@ -430,7 +430,10 @@ namespace gsmpl
     }
     void KinematicTrajectoryOpti::plot_traj()
     {
+        std::cout << "plot_traj" << std::endl;
         BsplineTrajectory traj = solve();
+
+        // plot
         double dt = 1 / static_cast<double>(n_);
         std::vector<double> t0 = matplot::linspace(0, 1, n_);
         std::vector<double> t1 = matplot::linspace(0, 1, 100);
@@ -453,6 +456,8 @@ namespace gsmpl
 
         std::cout << "t0 " << t0.size() << " q0 " << q0_v.size() << std::endl;
         std::cout << "t1 " << t1.size() << " q1 " << q1_v.size() << std::endl;
+        std::cout << "debug info 1" << std::endl;
+
         matplot::subplot(3, 1, 0);
         matplot::plot(c0_v, c1_v, q0_v, q1_v, "--");
         matplot::hold(matplot::on);
