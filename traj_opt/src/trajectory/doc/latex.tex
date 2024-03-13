@@ -63,9 +63,11 @@
     \[ \dot{B_i(t)}_{dim * dim}\]
     \[ \dot{B(t)} =  [\dot{B_{0}(t)}, \dot{B_{1}(t)}, \ldots, \dot{B_{n - 1}(t)}]_{dim * (n * dim)} \]
     
-    \[ r(t) = \Sigma_{i = 0}^{n - 1}B_{i}^{p}(t)P_{i} \]
+    \[ r(s) = \Sigma_{i = 0}^{n - 1}B_{i}^{p}(s)P_{i} \]
+    \[ s = t/T \]
     \[ DotBspline: dB = Spline(k - 1, {knot_1,\dots, kont_{nKnot - 1}}) \]
-    \[ \dot{r(t)} = \Sigma_{i = 0}^{n - 2}B_{i + 1}^{p - 1}(t)Q_{i} = \Sigma_{i = 0}^{n - 2}dB_{i}^{p - 1}(t)Q_{i} \]
+    \[ \dot{r(s)} = \Sigma_{i = 0}^{n - 2}B_{i + 1}^{p - 1}(s)Q_{i} = \Sigma_{i = 0}^{n - 2}dB_{i}^{p - 1}(t)Q_{i} \]
+    \[ \dot{r(t)} = \dot{r(s)} * \dot{s(t)} = \dot{r(s)} * (1/T) \]
     \[ Q_{i} = \frac{p}{t_{i + p + 1} - t_{i + 1}}(P_{i + 1} - P_{i}) \]
     \[ dBWeighted_{i}(t) = \frac{p}{t_{i + p + 1} - t_{i + 1}} * dB_{i}^{p - 1}(t) \]
     \[ dBWeighted(t) =  [dBWeighted_{0}(t), dBWeighted_{1}(t), \ldots, dBWeighted_{n - 2}(t)]_{dim * ((n - 1) * dim)} \]
