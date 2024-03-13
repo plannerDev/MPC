@@ -24,8 +24,8 @@
     \[ \quad q(1) = q_{goal}; \]
     \[ \quad \dot{q(0)} = 0; \]
     \[ \quad \dot{q(1)} = 0; \]
-    \[ \quad Q_{min} \leq \dot(q)(i) \quad i \in [0, nInequaC]; \] 
-    \[ \quad \dot(q)(i) \leq Q_{max} \quad i \in [0, nInequaC] \]   
+    \[ \quad Q_{min} \leq \dot{q_i} \quad i \in [0, nInequaC]; \] 
+    \[ \quad \dot{q_i} \leq Q_{max} \quad i \in [0, nInequaC] \]   
     *************************************************************************
 
     \[X = [T, p_{0}, \ldots, p_{n - 1}]^{T} = [T, p]^{T}_{nx * 1} \]
@@ -41,14 +41,18 @@
     \[ P_{r} = [p_{0r},\ldots,p_{(n - 1)r}]^{T}_{(n * dim) * 1} \]
     \[ q = [0, -R * P_{r}]^{T}_{nx * 1} \]
 
+    r(t): trajectory function \\
+    \[ r(t) = \Sigma_{i = 0}^{n - 1}B_{i}^{p}(t)P_{i} \]
     \[B_{i}(t)_{dim * dim} =  BasisFunctionI(t).asDiagonal()\]
     \[B(t) = [B_{0}(t), B_{1}(t), \ldots, B_{n - 1}(t)]_{dim * (n * dim)} \]
-    Aq: equality constraints matrix \\
+    Aq: equality constraints matrix: \\
+    position constraints:\\
     \[Aq * X = Lq = Uq \]
     \[ Aq_{0} = [0, B(0)]_{dim * nx} \]
     \[ (Aq_{0} * X)_{dim * 1} = q_{0} \]
     \[ Aq_{1} = [0, B(1)]_{dim * nx} \]
     \[ (Aq_{1} * X)_{dim * 1} = q_{1} \]
+    verlocity constraints:\\
     \[ M = \begin{bmatrix}
         0 & -E_{dim * dim} & E_{dim * dim} & 0 & \cdots & 0 \\
         0 & 0 & -E_{dim * dim} & E_{dim * dim} & \cdots & 0 \\
@@ -59,7 +63,6 @@
     \[ \dot{B_i(t)}_{dim * dim}\]
     \[ \dot{B(t)} =  [\dot{B_{0}(t)}, \dot{B_{1}(t)}, \ldots, \dot{B_{n - 1}(t)}]_{dim * (n * dim)} \]
     
-    
     \[ r(t) = \Sigma_{i = 0}^{n - 1}B_{i}^{p}(t)P_{i} \]
     \[ DotBspline: dB = Spline(k - 1, {knot_1,\dots, kont_{nKnot - 1}}) \]
     \[ \dot{r(t)} = \Sigma_{i = 0}^{n - 2}B_{i + 1}^{p - 1}(t)Q_{i} = \Sigma_{i = 0}^{n - 2}dB_{i}^{p - 1}(t)Q_{i} \]
@@ -67,13 +70,13 @@
     \[ dBWeighted_{i}(t) = \frac{p}{t_{i + p + 1} - t_{i + 1}} * dB_{i}^{p - 1}(t) \]
     \[ dBWeighted(t) =  [dBWeighted_{0}(t), dBWeighted_{1}(t), \ldots, dBWeighted_{n - 2}(t)]_{dim * ((n - 1) * dim)} \]
     \[ dBWSequence = [dBWeighted(t_0), \dots, dBWeighted(t_m)] \]
-
     \[ Aqdq(t)_{dim * nx} = dBWeighted(t)_{dim * ((n - 1) * dim)} * M_{((n - 1) * dim) * nx} \]
     \[ \dot{r(t)}_{dim * 1} = Aqdq(t) * X \]
     \[ \dot{r(0)} = 0,\quad Aqdq_{0} * X = 0 \]
     \[ \dot{r(1)} = 0,\quad Aqdq_{1} * X = 0 \]
     \[ Aq = [Aq_{0}; Aq_{1}; Aqdq_{0}; Aqdq_{1}]_{(4 * dim) * nx} \]
     \[ Lq = Uq = [q_{0}; q_{1}; 0; 0]_{(4 * dim) * 1} \]
+    inequality constraints: \\
     \[ dqmin = [\dot{q_{min}}; \ldots; \dot{q_{min}}]_{(nInequaC * dim) * 1} \]
     \[ dqmax = [\dot{q_{max}}; \ldots; \dot{q_{max}}]_{(nInequaC * dim) * 1} \]
     \[ dM = [1, 0, \ldots, 0]_{1 * nx} \]
